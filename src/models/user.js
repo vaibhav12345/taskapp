@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const {JWT_SECRET_KEY} = require("../config/config");
 const Task = require("./task");
 
 //mongoose.model("user",{}) the object is automatically converted to mongoose schema
