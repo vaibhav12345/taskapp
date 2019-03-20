@@ -1,3 +1,6 @@
+const axios = require("axios");
+const fetch = require('node-fetch');
+const Cookies = require('cookies')
 const express = require("express");
 const helmet = require("helmet");
 const hbs = require("hbs");
@@ -59,8 +62,26 @@ app.get("/signup",(req,res)=>{
     res.render("signup");
 });
 
-app.get("/home",(req,res)=>{
-    res.render("home");
+app.get("/home",auth,(req,res)=>{
+    res.render("home",{
+        name: req.user.name
+    });
+});
+
+app.get("/logout",auth,async (req,res)=>{
+    try{
+        const url = req.protocol + '://' + req.get('host');
+        await fetch(`${url}/api/users/logoutAll`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${req.token}`
+            }
+        });
+        res.render("")
+    } catch (e){
+        console.log("Error while logging out");
+        res.render("")
+    }
 });
 
 
