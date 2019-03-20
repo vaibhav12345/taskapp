@@ -45,7 +45,8 @@ document.querySelector("form").addEventListener("submit", async e => {
 
 
     } catch (e) {
-        window.location = "/singup";
+        console.log(e);
+        // window.location = "/signup";
     }
 
 });

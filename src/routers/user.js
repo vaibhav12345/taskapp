@@ -12,12 +12,15 @@ const passport = require("passport");
 //Create new user
 router.post("/users", async (req, res) => {
     const user = new User(req.body);
+    console.log(user);
     try {
         await user.save();
+        
         const token = await user.generateAuthToken();
-        sendWelcomeEmail(user.email, user.name);
+        // sendWelcomeEmail(user.email, user.name);
         res.status(201).send({ user, token });
     } catch (error) {
+        // console.log(error);
         res.status(400).send(error);
     }
 });
