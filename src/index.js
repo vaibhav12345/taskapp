@@ -3,10 +3,14 @@ const helmet = require("helmet");
 const hbs = require("hbs");
 const path = require("path");
 require("./db/mongoose");
+
+require("./passport");
+
 const User = require("./models/user");
 const Task = require("./models/task");
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
+const auth = require("./middleware/auth");
 
 //For heroku
 const PORT = process.env.PORT;
@@ -53,8 +57,11 @@ app.get("/login",(req,res)=>{
 
 app.get("/signup",(req,res)=>{
     res.render("signup");
-})
+});
 
+app.get("/home",(req,res)=>{
+    res.render("home");
+});
 
 
 //Register api routers
