@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd ./src/config/dev.env nodemon src/index.js"
+    "dev": "env-cmd ./src/config/dev.env nodemon src/index.js -e js,hbs"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "@sendgrid/mail": "^6.3.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
+    "hbs": "^4.0.3",
     "helmet": "^3.16.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.1.10",

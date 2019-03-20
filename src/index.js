@@ -1,5 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
+const hbs = require("hbs");
+const path = require("path");
 require("./db/mongoose");
 const User = require("./models/user");
 const Task = require("./models/task");
@@ -14,11 +16,11 @@ const app = express();
 //Setup helmet
 app.use(helmet());
 
-app.use((req,res,next)=>{
+// app.use((req,res,next)=>{
     
-    //to call next middleware use next
-    next();
-});
+//     //to call next middleware use next
+//     next();
+// });
 
 //maintenance middleware
 // app.use((req,res,next)=>{
@@ -28,11 +30,41 @@ app.use((req,res,next)=>{
 //Automatically parse input json to use in requests
 app.use(express.json());
 
-//Register routers
-app.use(userRouter);
-app.use(taskRouter);
+//Define path for express config
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialPath = path.join(__dirname, "../templates/partials");
+
+//Setup handlebars engine and views location
+app.set('view engine', 'hbs');
+app.set('views', viewsPath);
+hbs.registerPartials(partialPath);
+
+//Setup static directory to serve
+app.use(express.static(path.join(__dirname, "../public")));
+
+//Register view router
+app.get("",(req,res)=>{
+    res.render("index");
+});
+
+app.get("/login",(req,res)=>{
+    res.render("login");
+});
+
+app.get("/signup",(req,res)=>{
+    res.render("signup");
+})
 
 
+
+//Register api routers
+app.use("/api",userRouter);
+app.use("/api",taskRouter);
+
+//Setup 404 page
+app.get('*', (req, res) => {
+    res.render("404");
+});
 
 app.listen(PORT, () => {
     console.log(`Server is up on port ${PORT}`);
