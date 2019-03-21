@@ -12,7 +12,7 @@ const passport = require("passport");
 //Create new user
 router.post("/users", async (req, res) => {
     const user = new User(req.body);
-    console.log(user);
+    // console.log(user);
     try {
         await user.save();
         
@@ -77,10 +77,10 @@ router.post("/users/logout", auth, async (req, res) => {
 //Logout from all sessions
 router.post("/users/logoutAll", auth, async (req, res) => {
     try {
-        console.log("logging out of all sessions");
+        // console.log("logging out of all sessions");
         req.user.tokens = [];
         await req.user.save();
-        console.log("logged out of all sessions");
+        // console.log("logged out of all sessions");
         res.send();
     } catch (error) {
         res.status(500).send();

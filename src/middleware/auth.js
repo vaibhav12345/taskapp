@@ -21,12 +21,14 @@ const auth = async (req, res, next) => {
         //To allow route handler to have access to user
         req.token = token;
         req.user = user;
-        console.log(req.user.name);
+        // console.log(req.user.name);
         next();
     } catch (error) {
         console.log(error);
         // res.status(401).send({ error: "Please authenticate" });
-        res.render("notAuthenticated");
+        res.status(401);
+        next();
+        // res.render("notAuthenticated");
     }
 };
 

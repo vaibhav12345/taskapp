@@ -40,18 +40,26 @@ app.use(express.json());
 //Define path for express config
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialPath = path.join(__dirname, "../templates/partials");
+const helperPath = path.join(__dirname,"../templates/helpers/helpers.js");
 
 //Setup handlebars engine and views location
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 hbs.registerPartials(partialPath);
+require("../templates/helpers/helpers");    //Require helper functions
 
 //Setup static directory to serve
 app.use(express.static(path.join(__dirname, "../public")));
 
 //Register view router
-app.get("",(req,res)=>{
-    res.render("index");
+app.get("",auth,(req,res)=>{
+    if(req.user){
+        res.render("index",{
+            user:req.user
+        });
+    }else {
+        res.render("");
+    }
 });
 
 app.get("/login",(req,res)=>{
@@ -63,9 +71,14 @@ app.get("/signup",(req,res)=>{
 });
 
 app.get("/home",auth,(req,res)=>{
-    res.render("home",{
-        name: req.user.name
-    });
+    if(req.user){
+        res.render("home",{
+            name: req.user.name,
+            user: req.user
+        });
+    }else{
+        res.render("notAuthenticated");
+    }
 });
 
 app.get("/logout",auth,async (req,res)=>{
@@ -79,8 +92,18 @@ app.get("/logout",auth,async (req,res)=>{
         });
         res.render("")
     } catch (e){
-        console.log("Error while logging out");
-        res.render("")
+        // console.log("Error while logging out");
+        res.render("notAuthenticated")
+    }
+});
+
+app.get("/profile",auth,async(req,res)=>{
+    if(req.user){
+        res.render("profile",{
+            user:req.user
+        });
+    } else {
+        res.render("notAuthenticated");
     }
 });
 
