@@ -53,8 +53,8 @@ document.querySelector("form").addEventListener("submit", async e => {
 
         if (name)
             editObj["name"] = name;
-        
-        if(age && typeof(parseInt(age))==="number")
+
+        if (age && typeof (parseInt(age)) === "number")
             editObj["age"] = age;
 
         console.log(editObj);
@@ -67,4 +67,42 @@ document.querySelector("form").addEventListener("submit", async e => {
         window.location = "/editProfile";
     }
 
+});
+
+const upload = async file => {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    
+    const options = {
+        method: "POST",
+        body: formData  //Header is already set beacuse its defined in fetch api so no need to explicity setup header as it causes issues https://muffinman.io/uploading-files-using-fetch-multipart-form-data/
+    };
+    // delete options["Content-Type"]
+    let res = await fetch("/api/users/me/avatar", options);
+    return res;
+};
+
+document.getElementById("upload").addEventListener("click", e => {
+    e.preventDefault();
+    let avatar = document.getElementById("inputFile");
+    avatar = avatar.files[0];
+    // console.log(avatar);
+    if (avatar !== undefined) {
+        upload(avatar)
+            .then(res=>{
+                if(res.status===200){
+                    // console.log("Rendering new avatar");
+                    renderAvatar();
+                }
+            })
+            .catch(e=>{
+                console.log(e);
+            });
+    }
+
+});
+
+document.getElementById("inputEmail").addEventListener("click",e=>{
+    e.preventDefault();
+    document.getElementById("inputEmail").removeAttribute("readonly");
 });
