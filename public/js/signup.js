@@ -37,10 +37,11 @@ document.querySelector("form").addEventListener("submit", async e => {
         const password = document.querySelector('#inputPassword').value;
         const name = document.querySelector('#inputName').value;
         const retypePassword = document.querySelector('#repeatPassword').value;
+        const age = document.querySelector('#inputAge').value;
         if(retypePassword !== password){
             throw new Error("Passwords don't match");
         }
-        let res = await signUp({ name, email, password });
+        let res = await signUp({ name, email, password, age });
         window.location = "/home";
 
 

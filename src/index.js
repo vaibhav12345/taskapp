@@ -107,6 +107,16 @@ app.get("/profile",auth,async(req,res)=>{
     }
 });
 
+app.get("/editProfile",auth,async(req,res)=>{
+    if(req.user){
+        res.render("editProfile",{
+            user:req.user
+        });
+    } else {
+        res.render("notAuthenticated");
+    }
+});
+
 
 //Register api routers
 app.use("/api",userRouter);

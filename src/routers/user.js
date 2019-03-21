@@ -183,7 +183,7 @@ router.delete("/users/me", auth, async (req, res) => {
 const upload = multer({
     //dest:"avatars", remvoing this makes multer pass data in req object instead of saving to file system
     limits: {
-        fileSize: 1000000
+        fileSize: 5000000
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
